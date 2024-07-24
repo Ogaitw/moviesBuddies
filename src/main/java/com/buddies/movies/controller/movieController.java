@@ -2,7 +2,7 @@ package com.buddies.movies.controller;
 
 import com.buddies.movies.entity.MoviesRequestiDTO;
 import com.buddies.movies.model.Movies;
-import com.buddies.movies.repository.MoviesRepository;
+
 import com.buddies.movies.service.MoviesService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +14,7 @@ import java.util.Optional;
 @RequestMapping("/api/movies")
 @AllArgsConstructor
 @RestController
-public class movieControllers {
-    private final MoviesRepository moviesRepository;
+public class movieController {
     private MoviesService moviesService;
     @GetMapping
     public ResponseEntity<List<Movies>> getAllMovies() {
@@ -37,4 +36,9 @@ public class movieControllers {
     public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
         return (ResponseEntity<Void>) moviesService.deleteMovies(id);
     }
+    @PatchMapping("/{movies_id}")
+    public ResponseEntity<Movies> updateBook(@PathVariable Long movies_id, @RequestBody MoviesRequestiDTO data) {
+        return moviesService.updateMovies(movies_id, data);
+    }
+
 }

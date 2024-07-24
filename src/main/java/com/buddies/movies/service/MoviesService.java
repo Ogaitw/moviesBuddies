@@ -6,13 +6,13 @@ import com.buddies.movies.repository.MoviesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-
 public class MoviesService {
 
      @Autowired
@@ -45,5 +45,24 @@ public class MoviesService {
           return ResponseEntity.ok().build();
      }
 
+     public ResponseEntity<Movies> updateMovies(@PathVariable Long movies_id, @RequestBody MoviesRequestiDTO data) {
+          Optional<Movies> optionalMovies = moviesRepository.findById(movies_id);
+
+          if (optionalMovies.isPresent()) {
+               Movies movies = optionalMovies.get();
+
+               movies.setTitle(data.title());
+               movies.setDirector(data.director());
+               movies.setGenre(data.genre());
+               movies.setSynopsis(String.valueOf(data.releaseDat()));
+               movies.setSynopsis(data.synopsis());
+
+               moviesRepository.save(movies);
+
+               return ResponseEntity.ok().body(movies);
+          } else {
+               return ResponseEntity.notFound().build();
+          }
+     }
 
 }
