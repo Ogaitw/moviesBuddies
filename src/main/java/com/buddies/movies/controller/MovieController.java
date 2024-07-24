@@ -3,6 +3,7 @@ package com.buddies.movies.controller;
 import com.buddies.movies.entity.MoviesRequestiDTO;
 import com.buddies.movies.model.Movies;
 
+import com.buddies.movies.model.Series;
 import com.buddies.movies.service.MoviesService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,20 @@ import java.util.Optional;
 @RequestMapping("/api/movies")
 @AllArgsConstructor
 @RestController
-public class movieController {
+public class MovieController {
     private MoviesService moviesService;
     @GetMapping
     public ResponseEntity<List<Movies>> getAllMovies() {
         List<Movies> movies = moviesService.getAllMovies();
         return ResponseEntity.ok(movies);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Movies> getMovieID(@PathVariable Long id) {
+        Optional<Movies> bookRatingOptional;
+        bookRatingOptional = moviesService.getMovie(id);
+        return bookRatingOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<?> save(@RequestBody MoviesRequestiDTO movies) {
