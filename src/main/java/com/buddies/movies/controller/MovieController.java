@@ -1,9 +1,8 @@
 package com.buddies.movies.controller;
 
-import com.buddies.movies.entity.MoviesRequestiDTO;
+import com.buddies.movies.entity.MoviesRequestDTO;
 import com.buddies.movies.model.Movies;
 
-import com.buddies.movies.model.Series;
 import com.buddies.movies.service.MoviesService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ public class MovieController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody MoviesRequestiDTO movies) {
+    public ResponseEntity<?> save(@RequestBody MoviesRequestDTO movies) {
         try {
             ResponseEntity<?> savedNovies = moviesService.salvar(movies);
             return ResponseEntity.ok().body(savedNovies);
@@ -45,7 +44,7 @@ public class MovieController {
         return (ResponseEntity<Void>) moviesService.deleteMovies(id);
     }
     @PatchMapping("/{movies_id}")
-    public ResponseEntity<Movies> updateBook(@PathVariable Long movies_id, @RequestBody MoviesRequestiDTO data) {
+    public ResponseEntity<Movies> updateBook(@PathVariable Long movies_id, @RequestBody MoviesRequestDTO data) {
         return moviesService.updateMovies(movies_id, data);
     }
 

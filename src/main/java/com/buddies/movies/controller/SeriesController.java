@@ -1,6 +1,5 @@
 package com.buddies.movies.controller;
 
-import com.buddies.movies.entity.MoviesRequestiDTO;
 import com.buddies.movies.entity.SeriesRequestDTO;
 import com.buddies.movies.model.Series;
 import com.buddies.movies.service.SeriesService;

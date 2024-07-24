@@ -1,9 +1,8 @@
 package com.buddies.movies.ControllerTest;
 
 import com.buddies.movies.controller.MovieController;
-import com.buddies.movies.entity.MoviesRequestiDTO;
+import com.buddies.movies.entity.MoviesRequestDTO;
 import com.buddies.movies.model.Movies;
-import com.buddies.movies.repository.MoviesRepository;
 import com.buddies.movies.service.MoviesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,40 +10,50 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.ResultMatcher;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.times;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+
+import static org.hamcrest.Matchers.*;
 import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.web.servlet.function.RequestPredicates.contentType;
+
 
 @ExtendWith(MockitoExtension.class)
 public class MoviesControllerTes {
+    @Mock
     private MockMvc mockMvc;
+
+    @Mock
+    MoviesRequestDTO  moviesRequestDTO;
     @Mock
     private MoviesService moviesService;
-    @Mock
-    private MoviesRepository moviesRepository;
-
     @InjectMocks
     private MovieController movieController;
+    @Mock
+    private ObjectMapper objectMapper;
 
     @BeforeEach
-    void setUp(){}
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+
+    }
+
 
 
     @Test
@@ -75,37 +84,26 @@ public class MoviesControllerTes {
         assertThat(response.getStatusCodeValue(), is(204));
     }
 
-//    @Test
-//    public void saveMovieSuccess() throws Exception {
-//        // Arrange
-//        MoviesRequestiDTO movieRequest = new MoviesRequestiDTO();
-//        when(moviesService.salvar((MoviesRequestiDTO.class).newInstance())).thenReturn(ResponseEntity.noContent().build());
-//
-//        mockMvc.perform((RequestBuilder) post("/movies")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .contentType(MediaType.valueOf(new ObjectMapper().writeValueAsString(movieRequest))))
-//                .andExpect(status().isOk())
-//                .andExpect((ResultMatcher) jsonPath("$.movies_id", is(1)));
-//
-//    }
-//
-//    @Test
-//    public void saveMovieFailure() throws Exception {
-//        // Arrange
-//        MoviesRequestiDTO movieRequest = new MoviesRequestiDTO();
-//
-//        when(moviesService.salvar(any(MoviesRequestiDTO.class))).thenThrow(new RuntimeException("Error saving movie"));
-//
-//        // Act & Assert
-//        mockMvc.perform((RequestBuilder) post("/movies")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .contentType(MediaType.valueOf(new ObjectMapper().writeValueAsString(movieRequest))))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(contentType().toString());
-//
-//        verify(moviesService, times(1)).salvar(any(MoviesRequestiDTO.class));
-//    }
-//
 
+    @Test
+    void testSave() throws Exception {
+        moviesRequestDTO = MoviesRequestDTO.builder()
+                .title("fuga das depressivas")
+                .genre("Sci-Fi")
+                .releaseDat(LocalDate.of(2010, 7, 16))
+                .director("Sharpey sancleire")
+                .synopsis("Uma garota do interior resolve fugir de sua cidade")
+                .build();
+
+        ResponseEntity<MoviesRequestDTO> responseEntity = new ResponseEntity<>(moviesRequestDTO, HttpStatus.OK);
+        when(moviesService.salvar(any(MoviesRequestDTO.class))).thenReturn(responseEntity.getBody());
+
+        String jsonContent = objectMapper.writeValueAsString(movieController);
+
+        mockMvc.perform((RequestBuilder) post("/movies")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.valueOf(jsonContent)))
+                .andExpect(status().isOk());
+    }
 
 }

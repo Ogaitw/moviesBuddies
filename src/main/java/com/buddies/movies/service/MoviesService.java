@@ -1,6 +1,6 @@
 package com.buddies.movies.service;
 
-import com.buddies.movies.entity.MoviesRequestiDTO;
+import com.buddies.movies.entity.MoviesRequestDTO;
 import com.buddies.movies.model.Movies;
 import com.buddies.movies.repository.MoviesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class MoviesService {
                   .orElseGet(() -> ResponseEntity.notFound().build());
      }
 
-     public ResponseEntity<?> salvar(@RequestBody MoviesRequestiDTO moviesRequestDTO) {
+     public ResponseEntity<?> salvar(@RequestBody MoviesRequestDTO moviesRequestDTO) {
           Movies movies = new Movies();
           movies.setTitle(moviesRequestDTO.title());
           movies.setGenre(moviesRequestDTO.genre());
@@ -46,7 +46,7 @@ public class MoviesService {
           return ResponseEntity.ok().build();
      }
 
-     public ResponseEntity<Movies> updateMovies(@PathVariable Long movies_id, @RequestBody MoviesRequestiDTO data) {
+     public ResponseEntity<Movies> updateMovies(@PathVariable Long movies_id, @RequestBody MoviesRequestDTO data) {
           Optional<Movies> optionalMovies = moviesRepository.findById(movies_id);
 
           if (optionalMovies.isPresent()) {

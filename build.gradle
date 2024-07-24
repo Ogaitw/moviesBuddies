@@ -35,6 +35,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.20' // Verifique a versão compatível
     annotationProcessor 'org.projectlombok:lombok:1.18.30' // Verifique a versão compatível
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework:spring-web:5.3.10'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
