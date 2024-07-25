@@ -1,4 +1,4 @@
-package com.buddies.movies.controller;
+package com.buddies.movies.api.v1;
 
 import com.buddies.movies.entity.SeriesRequestDTO;
 import com.buddies.movies.model.Series;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RequestMapping("/api/series")
 @RestController
-public class SeriesController {
+public class SeriesRest {
     @Autowired
     private SeriesService seriesService;
 
