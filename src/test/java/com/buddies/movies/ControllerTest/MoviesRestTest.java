@@ -4,7 +4,6 @@ import com.buddies.movies.TestDataUtils;
 import com.buddies.movies.api.v1.MovieRest;
 import com.buddies.movies.entity.MoviesRequestDTO;
 import com.buddies.movies.entity.MoviesResponseDTO;
-import com.buddies.movies.exception.MoviesException;
 import com.buddies.movies.repository.MoviesRepository;
 import com.buddies.movies.service.MoviesService;
 import com.buddies.movies.util.ErrorMessages;
@@ -18,6 +17,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,14 +26,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.EntityNotFoundException;
-
-import java.time.LocalDate;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class MoviesRestTest {
 

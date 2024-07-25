@@ -4,10 +4,11 @@ package com.buddies.movies;
 import com.buddies.movies.entity.MoviesRequestDTO;
 import com.buddies.movies.entity.MoviesResponseDTO;
 import com.buddies.movies.model.Movies;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.List;
-
+@SpringBootTest
 public class TestDataUtils {
 
     public static Movies createMoviesEntity(){
